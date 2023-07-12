@@ -1,0 +1,8 @@
+
+To install sqllite for windows:
+sudo apt-get install sqlite3 curl
+
+To install sqllite for mac:
+brew install sqlite3 curl
+
+
