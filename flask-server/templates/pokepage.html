@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <a href="/">POKEDEX</a>
+
+    </div>
+    <div class="name">
+        <header><a href="/pokepage/{{pokemon.poke_id}}/">{{pokemon.poke_name}}</a></header>
+    </div>
+    <div class="id">
+        <header><a href="/pokepage/{{pokemon.poke_id}}/">{{pokemon.poke_id}}</a></header>
+    </div>
+    <div class="pokepic">
+        <img src="/static/uploads/bulb.png" alt="{{pokemon.poke_name}}">
+    </div>
+    <div class="stats">
+        {{pokemon.poke_weight}}
+        {{pokemon.poke_height}}
+        {{pokemon.poke_base_xp}}
+    </div>
+    <div class="type">
+        {% for type in pokemon.types %}
+            {{type}}
+        {% endfor %}
+    </div>
+    <div class="abilities">
+        {% for ability in pokemon.abilities %}
+            {{ability}}
+        {% endfor %}
+    </div>
+</html>

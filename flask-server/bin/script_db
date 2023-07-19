@@ -32,6 +32,7 @@ case $1 in
     else
     touch database.db
     python3 create_db.py
+    python3 loading.py
     fi
     ;;
 
@@ -45,6 +46,7 @@ case $1 in
     touch database.db
     echo "database reset"
     python3 create_db.py
+    python3 loading.py
     ;;
 
   "dump")

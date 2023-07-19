@@ -11,7 +11,7 @@ def main():
         response = requests.get(pokemon_request)
         pokemon = response.json()
         
-        #* Table pokemon
+    #* Table pokemon
         poke_id = pokemon["id"]
         poke_name = pokemon["name"]
         poke_weight = pokemon["weight"] # 3.93701 # hectograms to inches        
@@ -19,7 +19,7 @@ def main():
         poke_base_xp  = pokemon["base_experience"]
         
 
-        #* Load into sql 
+    #* Load into sql 
         sql = "INSERT INTO pokemon (poke_ID, poke_name, poke_weight, poke_height, poke_base_xp) VALUES (?, ?, ?, ?, ?)"
         val = (poke_id, poke_name, poke_weight, poke_height, poke_base_xp)
 
@@ -27,6 +27,7 @@ def main():
             cur.execute(sql, val)
         except sqlite3.IntegrityError as e: #! Error with data already existing
             print(e)
+            # pass
         except sqlite3.OperationalError as e: #! Error finding no database
             print(e)
             print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
@@ -34,14 +35,14 @@ def main():
 
         connection.commit()
 
-        #? Debug
+    #? Debug
         # print(poke_id, " ", poke_name, " ", poke_weight, " ", poke_height, " ",  poke_base_xp)
         # data_debug = cur.execute('SELECT * FROM pokemon')
         # print(data_debug.fetchall())
 
         
 
-        #* Table type 
+    #* Table type 
         poke_type_list = []
 
         poke_types = pokemon["types"]
@@ -49,16 +50,28 @@ def main():
         for type in poke_types:
             poke_type_list.append(type["type"]["name"])
         
-        #TODO Load into sql 
+    #* Load into sql 
+        for type in poke_type_list:
+            sql = "INSERT INTO type (poke_ID, poke_type) VALUES (?, ?)"
+            val = (poke_id, type)
+            try: 
+                cur.execute(sql, val)
+            except sqlite3.OperationalError as e: #! Error finding no database
+                print(e)
+                print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
+                exit(1)
 
-        #? Debug
+        connection.commit()
+
+
+    #? Debug
         # for type in poke_type_list:
         #     print(type)
         # print()
 
         
 
-        #* Table Abilities
+    #* Table Abilities
         poke_abilities_list = []
 
         poke_abilities = pokemon["abilities"]
@@ -66,18 +79,26 @@ def main():
         for ability in poke_abilities:
             if not ability["is_hidden"]:
                 poke_abilities_list.append(ability["ability"]["name"])
-                
+        
+        
+    # Load into sql 
+        for ability in poke_abilities_list:
+            sql = "INSERT INTO abilities (poke_ID, ability) VALUES (?, ?)"
+            val = (poke_id, ability)
+            try: 
+                cur.execute(sql, val)
+            except sqlite3.OperationalError as e: #! Error finding no database
+                print(e)
+                print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
+                exit(1)
 
-        #TODO Load into sql 
+        connection.commit()
 
-        #? Debug
+    #? Debug
         # print(poke_abilities_list)
         # print()
 
-
-
-        
-        #* stats
+    #* stats
         
         poke_stats = pokemon["stats"]
         # print(poke_stats)
@@ -91,6 +112,25 @@ def main():
         
 
         #TODO Load into sql 
+
+        sql = "INSERT INTO stats (HP, attack, defense, special_defense, special_attack, speed) VALUES (?, ?, ?, ?, ?, ?)"
+        val = (poke_HP, poke_attack, poke_defense, poke_special_defense, poke_special_attack, poke_speed)
+        try: 
+            cur.execute(sql, val)
+        except sqlite3.IntegrityError as e: #! Error with data already existing
+            print(e)
+            # pass
+        except sqlite3.OperationalError as e: #! Error finding no database
+            print(e)
+            print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
+            exit(1)
+
+        connection.commit()
+
+
+
+
+
 
         #? debug
         # print(poke_HP, poke_attack, poke_defense, poke_special_defense, poke_special_attack, poke_speed)

@@ -6,3 +6,10 @@ To install sqllite for mac:
 brew install sqlite3 curl
 
 pip install flask
+pip install react
+pip install requests 
+
+How to set up Flask
+
+How to set up react
+

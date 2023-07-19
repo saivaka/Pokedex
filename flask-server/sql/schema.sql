@@ -13,29 +13,26 @@ CREATE TABLE type(
     poke_ID INTEGER,
     poke_type TEXT,
 
-    PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 
 CREATE TABLE abilities(
-    ability TEXT, 
     poke_ID INTEGER,
+    ability TEXT, 
     
-    PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 
 CREATE TABLE weaknesses(
-    weakness TEXT,
     poke_ID INTEGER,
+    weakness TEXT,
     
-    PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 
 CREATE TABLE gender(
-    gender TEXT,
     poke_ID INTEGER,
+    gender TEXT,
     
     PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
@@ -43,10 +40,9 @@ CREATE TABLE gender(
 
 
 CREATE TABLE image(
-    poke_image TEXT,
     poke_ID INTEGER,
+    poke_image TEXT,
     
-    PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 

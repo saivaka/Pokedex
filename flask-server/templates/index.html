@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <a href="/">POKEDEX</a>
+    </div>
+    
+    
+    {% for poke in pokemon %}
+            <a href="/pokepage/{{poke.poke_id}}/">
+                <h1>{{poke.poke_name}}</h1>
+            </a>
+    {% endfor %}
+    
+</body>
+</html>
