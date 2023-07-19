@@ -4,18 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    
 </head>
 <body>
     <div>
         <a href="/">POKEDEX</a>
     </div>
     
-    
-    {% for poke in pokemon %}
-            <a href="/pokepage/{{poke.poke_id}}/">
-                <h1>{{poke.poke_name}}</h1>
-            </a>
-    {% endfor %}
+    <div class="grid-container">
+        {% for poke in pokemon %}
+            <div class="poke-box">
+                <!-- Load Image -->
+                <a href="/pokepage/{{poke.poke_id}}/">
+                    <img src="{{poke.poke_image}}" alt="image of {{poke.poke_name}}">
+                </a>
+
+                <!-- Load Id -->
+                <div class = "poke_id">
+                    #{{poke.poke_id}}
+                </div>   
+
+                <!-- Load Name -->
+                <div class="poke_name">
+                    {{poke.poke_name}}
+                </div>
+
+                <div class="poke_types">
+                    {% for type in poke.poke_types %}
+                        {{type}}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     
 </body>
 </html>

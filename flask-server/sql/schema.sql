@@ -2,13 +2,16 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE pokemon(
     poke_ID INTEGER, 
-    poke_name TEXT, 
-    poke_weight REAL,
-    poke_height REAL,
+    poke_name TEXT,  
+    poke_weight REAL, 
+    poke_height REAL, 
     poke_base_xp REAL,
+
     poke_color TEXT,
     poke_shape TEXT,
     poke_habitat TEXT,
+
+    poke_image_url TEXT,
 
     PRIMARY KEY(poke_ID)
 );
@@ -49,12 +52,12 @@ CREATE TABLE gender(
 );
 
 
-CREATE TABLE image(
-    poke_ID INTEGER,
-    poke_image_url TEXT,
+-- CREATE TABLE image(
+--     poke_ID INTEGER,
+--     poke_image_url TEXT,
     
-    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
-);
+--     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+-- );
 
 CREATE TABLE stats(
     poke_ID INTEGER,

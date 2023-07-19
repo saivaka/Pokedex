@@ -122,9 +122,10 @@ class Pokemon_loader:
 
         with open(file_name, 'wb') as handler:
             handler.write(image)
+        sql = "UPDATE pokemon SET poke_image_url = ? WHERE poke_ID == ?"
 
-        sql = "INSERT INTO image (poke_ID, poke_image_url) VALUES (?, ?)"
-        val = (self.poke_id, file_name)
+        # sql = "INSERT INTO image (poke_ID, poke_image_url) VALUES (?, ?)"
+        val = (file_name, self.poke_id)
         try: 
             self.cur.execute(sql, val)
         except sqlite3.IntegrityError as e: #! Error with data already existing
@@ -137,6 +138,30 @@ class Pokemon_loader:
 
         self.connection.commit()
     
+    def Table_Pokemon_species(self, pokemon_json):
+        #TODO better discription / add comments
+        """Load data from Json into pokemon table"""
+
+        
+        poke_color = pokemon_json["color"]["name"]
+        poke_habitat = pokemon_json["habitat"]["name"]   
+        poke_shape = pokemon_json["shape"]["name"]
+        
+        #* Load into sql
+        sql = "UPDATE pokemon SET poke_color = ?, poke_shape = ?, poke_habitat = ? WHERE poke_ID == ?"
+        val = (poke_color, poke_shape, poke_habitat, self.poke_id)
+
+        try: 
+            self.cur.execute(sql, val)
+        except sqlite3.IntegrityError as e: #! Error with data already existing
+            print(e)
+            # pass
+        except sqlite3.OperationalError as e: #! Error finding no database
+            print(e)
+            print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
+            exit(1)
+
+        self.connection.commit()
 
 class Gender_loader:
     def __init__(self):
@@ -175,7 +200,7 @@ def main():
     # cur = connection.cursor()
     
 
-    for i in range(1, 50 ): # Number of loops = number of pokemons
+    for i in range(1, 40): # Number of loops = number of pokemons
         pokemon_request = f"https://pokeapi.co/api/v2/pokemon/{i}" # Load all needed info from pokemon route api
         response = requests.get(pokemon_request)
         pokemon = response.json()
@@ -189,7 +214,7 @@ def main():
         pokemon_request = f"https://pokeapi.co/api/v2/pokemon-species/{i}"
         response = requests.get(pokemon_request)
         pokemon = response.json()
-
+        pokemon_loader.Table_Pokemon_species(pokemon_json= pokemon)
         
     for i in range(1, 4): # Number of loops = number of genders
         gender_request = f"https://pokeapi.co/api/v2/gender/{i}/" # Load all needed info from gender route api
@@ -232,9 +257,9 @@ def main():
 
     #From pokemon-species
     #https://pokeapi.co/api/v2/pokemon-species/{id or name}/
-        #TODO Color of Pokemon
-        #TODO Shape of pokemon
-        #TODO Habitat of pokemon?
+        # Color of Pokemon
+        # Shape of pokemon
+        # Habitat of pokemon?
 
     # How to load
         # Category
