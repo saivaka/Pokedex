@@ -8,7 +8,7 @@ class Pokemon_loader:
         self.connection = sqlite3.connect('database.db')
         self.cur = self.connection.cursor()
         self.poke_id = poke_id
-    
+    d
     def Table_Pokemon(self, pokemon_json):
         #TODO better discription / add comments
         """Load data from Json into pokemon table"""
