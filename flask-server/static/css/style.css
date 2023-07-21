@@ -4,8 +4,7 @@
 }
 
 .poke-box {
-    
-    flex: 0 0 calc(33.33% - 30px); /* Three boxes per row with 10px spacing */
+    flex: 0 0 calc(20% - 30px); /* Three boxes per row with 10px spacing */
     margin: 5px; /* Add some margin between boxes */
     text-align: center; /* Center the content inside the box */
     border: 2px solid black;

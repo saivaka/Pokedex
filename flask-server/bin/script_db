@@ -1,5 +1,5 @@
 #!/bin/bash
-# insta485db
+# Pokedex db
 
 # Stop on errors
 # See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
@@ -31,22 +31,31 @@ case $1 in
     echo "database already exists"
     else
     touch database.db
+    mkdir static/uploads
     python3 create_db.py
     python3 loading.py
+
+    echo "Database with API data has been created"
     fi
     ;;
 
   "destroy")
     rm -rf database.db
+    rm -r static/uploads
     echo "destroyed"
     ;;
 
   "reset")
     rm -rf database.db
+    rm -r static/uploads
+
+    echo "Resetting database"
     touch database.db
-    echo "database reset"
+    mkdir static/uploads
+    
     python3 create_db.py
     python3 loading.py
+    echo "Database has been reset with API data"
     ;;
 
   "dump")

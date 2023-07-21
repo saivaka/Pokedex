@@ -4,8 +4,8 @@ CREATE TABLE pokemon(
     poke_ID INTEGER, 
     poke_name TEXT,  
     poke_weight REAL, 
-    poke_height REAL, 
-    poke_base_xp REAL,
+    poke_height TEXT, 
+    poke_base_xp INTEGER,
 
     poke_color TEXT,
     poke_shape TEXT,
