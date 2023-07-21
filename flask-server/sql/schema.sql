@@ -6,6 +6,10 @@ CREATE TABLE pokemon(
     poke_weight REAL,
     poke_height REAL,
     poke_base_xp REAL,
+    poke_color TEXT,
+    poke_shape TEXT,
+    poke_habitat TEXT,
+
     PRIMARY KEY(poke_ID)
 );
 
@@ -38,7 +42,7 @@ CREATE TABLE weaknesses(
 );
 
 CREATE TABLE gender(
-    poke_name INTEGER,
+    poke_name TEXT,
     gender TEXT,
     
     FOREIGN KEY(poke_name) REFERENCES pokemon(poke_name)

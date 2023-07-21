@@ -1,1 +1,2 @@
-no such table: pokemon
+database reset
+Database has been connected

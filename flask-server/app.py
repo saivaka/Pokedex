@@ -63,6 +63,16 @@ def pokemon(pokeid_slug):
     poke_ability_list = []
     for ability in poke_ability:
         poke_ability_list.append(ability[0])
+
+
+    cur4 = connection.execute(
+        "SELECT * "
+        "FROM image "
+        "WHERE poke_ID == ? ",
+        (pokeid_slug, )
+    )
+    poke_image = cur4.fetchall()[0][1]
+    print(poke_image)
     # pokemon = cur.fetchone()
     # poke_type = cur2.fetchall()
     # poke_type_list = []
@@ -79,6 +89,7 @@ def pokemon(pokeid_slug):
         "poke_base_xp": pokemon[4],
         "types": poke_type_list,
         "abilities": poke_ability_list,
+        "image" : poke_image
     }
 
     

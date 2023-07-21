@@ -2,7 +2,7 @@ import requests
 import sqlite3
 import urllib3
 
-class Loader:
+class Pokemon_loader:
 
     def __init__(self, poke_id):
         self.connection = sqlite3.connect('database.db')
@@ -10,6 +10,7 @@ class Loader:
         self.poke_id = poke_id
     
     def Table_Pokemon(self, pokemon_json):
+        #TODO better discription / add comments
         """Load data from Json into pokemon table"""
 
         self.poke_id = pokemon_json["id"]
@@ -35,6 +36,7 @@ class Loader:
         self.connection.commit()
 
     def Table_type(self, pokemon_json):
+        #TODO better discription / add comments
         """Load data from Json into type table"""
 
         poke_type_list = []
@@ -57,6 +59,7 @@ class Loader:
         self.connection.commit()
 
     def Table_ability(self, pokemon_json):
+        #TODO better discription / add comments
         """Load data from Json into ability table"""
 
         poke_abilities_list = []
@@ -80,6 +83,7 @@ class Loader:
         self.connection.commit()
 
     def Table_Stats(self, pokemon_json):
+        #TODO better discription / add comments
         """Load data from Json into stats table"""
 
         poke_stats = pokemon_json["stats"]
@@ -108,6 +112,7 @@ class Loader:
         self.connection.commit()
 
     def Table_Image(self, pokemon_json):
+        #TODO better discription / add comments
         """Load images from Json url into the static/uploads folder and 
             saves a path to these locally saved images in the images table"""
 
@@ -132,7 +137,34 @@ class Loader:
 
         self.connection.commit()
     
-    #TODO Table_gender(self, pokemon_json):
+
+class Gender_loader:
+    def __init__(self):
+        self.connection = sqlite3.connect('database.db')
+        self.cur = self.connection.cursor()
+    
+    
+    def Table_gender(self, gender_json):
+        #TODO better discription / add comments
+        """Load data from Json into gender table"""
+        gender_name = gender_json["name"]
+        poke_list = gender_json["pokemon_species_details"]
+        for poke in poke_list:
+            poke_name = poke["pokemon_species"]["name"]
+            
+            "Load into SQL"
+            sql = "INSERT INTO gender (poke_name, gender) VALUES (?, ?)"
+            val = (poke_name, gender_name)
+            try: 
+                self.cur.execute(sql, val)
+            except sqlite3.OperationalError as e: #! Error finding no database
+                print(e)
+                print("Probable Fix: May have forgotten to run the bin/create or create_db.py script to connect to sql db")
+                exit(1)
+
+        self.connection.commit()
+
+
 
     #TODO Table_strengths(self, pokemon_json):
 
@@ -143,17 +175,29 @@ def main():
     # cur = connection.cursor()
     
 
-    for i in range(1, 10 ):
-        pokemon_request = f"https://pokeapi.co/api/v2/pokemon/{i}"
+    for i in range(1, 50 ): # Number of loops = number of pokemons
+        pokemon_request = f"https://pokeapi.co/api/v2/pokemon/{i}" # Load all needed info from pokemon route api
         response = requests.get(pokemon_request)
         pokemon = response.json()
-        loader = Loader(i)
-        loader.Table_Pokemon(pokemon_json = pokemon)
-        loader.Table_type(pokemon_json = pokemon)
-        loader.Table_ability(pokemon_json = pokemon)
-        loader.Table_Stats(pokemon_json = pokemon)
-        loader.Table_Image(pokemon_json = pokemon)
+        pokemon_loader = Pokemon_loader(i)
+        pokemon_loader.Table_Pokemon(pokemon_json = pokemon)
+        pokemon_loader.Table_type(pokemon_json = pokemon)
+        pokemon_loader.Table_ability(pokemon_json = pokemon)
+        pokemon_loader.Table_Stats(pokemon_json = pokemon)
+        pokemon_loader.Table_Image(pokemon_json = pokemon)
+
+        pokemon_request = f"https://pokeapi.co/api/v2/pokemon-species/{i}"
+        response = requests.get(pokemon_request)
+        pokemon = response.json()
+
         
+    for i in range(1, 4): # Number of loops = number of genders
+        gender_request = f"https://pokeapi.co/api/v2/gender/{i}/" # Load all needed info from gender route api
+        response = requests.get(gender_request)
+        gender = response.json()
+        gender_loader = Gender_loader()
+        gender_loader.Table_gender(gender_json = gender)
+
 
     # for i in range(1, 10):
     #     pokemon_request = f"https://pokeapi.co/api/v2/gender/{i}/"
@@ -186,11 +230,17 @@ def main():
         # Load the Gender
 
 
+    #From pokemon-species
+    #https://pokeapi.co/api/v2/pokemon-species/{id or name}/
+        #TODO Color of Pokemon
+        #TODO Shape of pokemon
+        #TODO Habitat of pokemon?
+
     # How to load
         # Category
         # Weaknesses
         # Strengths
-        # Color of Pokemon
+        # Evolution of pokemon
 
     # Additional
         # Should we load verisons?
