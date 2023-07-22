@@ -2,10 +2,17 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE pokemon(
     poke_ID INTEGER, 
-    poke_name TEXT, 
-    poke_weight REAL,
-    poke_height REAL,
+    poke_name TEXT,  
+    poke_weight REAL, 
+    poke_height TEXT, 
     poke_base_xp INTEGER,
+
+    poke_color TEXT,
+    poke_shape TEXT,
+    poke_habitat TEXT,
+
+    poke_image_url TEXT,
+
     PRIMARY KEY(poke_ID)
 );
 
@@ -23,6 +30,13 @@ CREATE TABLE abilities(
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 
+CREATE TABLE strengths(
+    poke_ID INTEGER,
+    strengths TEXT,
+    
+    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+);
+
 CREATE TABLE weaknesses(
     poke_ID INTEGER,
     weakness TEXT,
@@ -31,31 +45,28 @@ CREATE TABLE weaknesses(
 );
 
 CREATE TABLE gender(
-    poke_ID INTEGER,
+    poke_name TEXT,
     gender TEXT,
     
-    PRIMARY KEY(poke_ID),
-    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+    FOREIGN KEY(poke_name) REFERENCES pokemon(poke_name)
 );
 
 
-CREATE TABLE image(
-    poke_ID INTEGER,
-    poke_image TEXT,
+-- CREATE TABLE image(
+--     poke_ID INTEGER,
+--     poke_image_url TEXT,
     
-    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
-);
-
-    
+--     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+-- );
 
 CREATE TABLE stats(
-    HP INTEGER,
-    attack INTEGER,
-    defense INTEGER,
-    special_defense INTEGER,
-    special_attack INTEGER,
-    speed INTEGER,
     poke_ID INTEGER,
+    HP REAL,
+    attack REAL,
+    defense REAL,
+    special_attack REAL,
+    special_defense REAL,
+    speed REAL,
     -- poke_name TEXT,
     PRIMARY KEY(poke_ID),
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
