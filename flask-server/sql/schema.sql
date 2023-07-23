@@ -4,8 +4,8 @@ CREATE TABLE pokemon(
     poke_ID INTEGER, 
     poke_name TEXT,  
     poke_weight REAL, 
-    poke_height REAL, 
-    poke_base_xp REAL,
+    poke_height TEXT, 
+    poke_base_xp INTEGER,
 
     poke_color TEXT,
     poke_shape TEXT,
@@ -30,19 +30,26 @@ CREATE TABLE abilities(
     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
 );
 
-CREATE TABLE strengths(
-    poke_ID INTEGER,
-    strengths TEXT,
-    
-    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+CREATE TABLE Type_half_damage(
+    poke_type TEXT,
+    half_type TEXT,
+
+    FOREIGN KEY(poke_type) REFERENCES type(poke_type)
 );
 
-CREATE TABLE weaknesses(
-    poke_ID INTEGER,
-    weakness TEXT,
-    
-    FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+CREATE TABLE Type_double_damage(
+    poke_type TEXT,
+    double_type TEXT,
+
+    FOREIGN KEY(poke_type) REFERENCES type(poke_type)
 );
+
+-- CREATE TABLE weaknesses(
+--     poke_ID INTEGER,
+--     weakness TEXT,
+    
+--     FOREIGN KEY(poke_ID) REFERENCES pokemon(poke_ID)
+-- );
 
 CREATE TABLE gender(
     poke_name TEXT,

@@ -1,6 +1,7 @@
 import requests
 import sqlite3
 import urllib3
+import math
 
 class Pokemon_loader:
 
@@ -8,15 +9,31 @@ class Pokemon_loader:
         self.connection = sqlite3.connect('database.db')
         self.cur = self.connection.cursor()
         self.poke_id = poke_id
+
+    def hectograms_to_lbs(self, weight):
+        #TODO better discription / add comments
+        return round(weight * 0.220462, 1)
     
+    def decimetres_to_feet(self, height):
+        #TODO better discription / add comments
+        inches = height * 3.93701
+        feet = int(inches / 12)
+        leftover = round((inches % 12))
+        if leftover == 12:
+            feet += 1
+            leftover = 0
+        return (f"{feet}\'{leftover}\"")
+        # return (feet + "\'" + leftover + "\"")
+
+
     def Table_Pokemon(self, pokemon_json):
         #TODO better discription / add comments
         """Load data from Json into pokemon table"""
 
         self.poke_id = pokemon_json["id"]
-        poke_name = pokemon_json["name"]
-        poke_weight = pokemon_json["weight"] # 3.93701 # hectograms to inches        
-        poke_height = pokemon_json["height"] # 0.220462 # decimetres to lbs
+        poke_name = pokemon_json["name"].capitalize()
+        poke_weight = self.hectograms_to_lbs(pokemon_json["weight"]) # hectograms to lbs
+        poke_height = self.decimetres_to_feet(pokemon_json["height"]) # 3.93701 # decimetres to inches        
         poke_base_xp  = pokemon_json["base_experience"]
         
         #* Load into sql
@@ -48,7 +65,7 @@ class Pokemon_loader:
         #* Load into sql 
         for type in poke_type_list:
             sql = "INSERT INTO type (poke_ID, poke_type) VALUES (?, ?)"
-            val = (self.poke_id, type)
+            val = (self.poke_id, type.capitalize())
             try: 
                 self.cur.execute(sql, val)
             except sqlite3.OperationalError as e: #! Error finding no database
@@ -72,7 +89,7 @@ class Pokemon_loader:
         #* Load into sql 
         for ability in poke_abilities_list:
             sql = "INSERT INTO abilities (poke_ID, ability) VALUES (?, ?)"
-            val = (self.poke_id, ability)
+            val = (self.poke_id, ability.capitalize())
             try: 
                 self.cur.execute(sql, val)
             except sqlite3.OperationalError as e: #! Error finding no database
@@ -143,9 +160,9 @@ class Pokemon_loader:
         """Load data from Json into pokemon table"""
 
         
-        poke_color = pokemon_json["color"]["name"]
-        poke_habitat = pokemon_json["habitat"]["name"]   
-        poke_shape = pokemon_json["shape"]["name"]
+        poke_color = pokemon_json["color"]["name"].capitalize()
+        poke_habitat = pokemon_json["habitat"]["name"].capitalize()
+        poke_shape = pokemon_json["shape"]["name"].capitalize()
         
         #* Load into sql
         sql = "UPDATE pokemon SET poke_color = ?, poke_shape = ?, poke_habitat = ? WHERE poke_ID == ?"
@@ -179,7 +196,7 @@ class Gender_loader:
             
             "Load into SQL"
             sql = "INSERT INTO gender (poke_name, gender) VALUES (?, ?)"
-            val = (poke_name, gender_name)
+            val = (poke_name.capitalize(), gender_name)
             try: 
                 self.cur.execute(sql, val)
             except sqlite3.OperationalError as e: #! Error finding no database
@@ -193,6 +210,7 @@ class Gender_loader:
 
     #TODO Table_strengths(self, pokemon_json):
 
+
     #TODO Table_weaknesses(self, pokemon_json):
 
 def main():
@@ -200,7 +218,7 @@ def main():
     # cur = connection.cursor()
     
 
-    for i in range(1, 40): # Number of loops = number of pokemons
+    for i in range(1, 10): # Number of loops = number of pokemons
         pokemon_request = f"https://pokeapi.co/api/v2/pokemon/{i}" # Load all needed info from pokemon route api
         response = requests.get(pokemon_request)
         pokemon = response.json()
@@ -223,6 +241,10 @@ def main():
         gender_loader = Gender_loader()
         gender_loader.Table_gender(gender_json = gender)
 
+    for i in range (1,19): #Number of loops = number of types
+        type_request = f"https://pokeapi.co/api/v2/type/{i}/" # Load all needed info from type route api
+        response = requests.get(type_request)
+        type = response.json()
 
     # for i in range(1, 10):
     #     pokemon_request = f"https://pokeapi.co/api/v2/gender/{i}/"
