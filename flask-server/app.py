@@ -6,21 +6,20 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     connection = sqlite3.connect('database.db')
-
     
-    if request.args.get('name'):
-        cur = connection.execute(
-            "SELECT poke_ID, poke_name, poke_image_url "
-            "FROM pokemon "
-            "WHERE poke_name == ? ",
-            (request.args.get('name').capitalize(), )
-        )
+    # if request.args.get('name'):
+    #     cur = connection.execute(
+    #         "SELECT poke_ID, poke_name, poke_image_url "
+    #         "FROM pokemon "
+    #         "WHERE poke_name == ? ",
+    #         (request.args.get('name').capitalize(), )
+    #     )
 
-    else: 
-        cur = connection.execute(
-            "SELECT poke_ID, poke_name, poke_image_url "
-            "FROM pokemon "
-        )
+    # else: 
+    cur = connection.execute(
+        "SELECT poke_ID, poke_name, poke_image_url "
+        "FROM pokemon "
+    )
 
         
     #TODO better discription / add comments
@@ -182,3 +181,65 @@ def pokemon_api():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+
+
+
+@app.route("/test")
+def index_test():
+    connection = sqlite3.connect('database.db')
+    
+    # if request.args.get('name'):
+    #     cur = connection.execute(
+    #         "SELECT poke_ID, poke_name, poke_image_url "
+    #         "FROM pokemon "
+    #         "WHERE poke_name == ? ",
+    #         (request.args.get('name').capitalize(), )
+    #     )
+
+    # else: 
+    cur = connection.execute(
+        "SELECT poke_ID, poke_name, poke_image_url "
+        "FROM pokemon "
+    )
+
+        
+    #TODO better discription / add comments
+    
+    # cur = connection.execute(
+    #     "SELECT poke_ID, poke_name, poke_image_url "
+    #     "FROM pokemon "
+    # )
+    pokemon = cur.fetchall()
+    my_poke_list = []
+    # print(pokemon)
+    for poke in pokemon:
+
+        cur2 = connection.execute(
+            "SELECT poke_type "
+            "FROM type "
+            "WHERE poke_ID == ? ",
+            (poke[0] ,)
+        )
+        types = cur2.fetchall()
+        
+        type_list = []
+        for type in types:
+            type_list.append(type[0])
+
+        # f"{poke[0]:04d}"
+        poke_dict = {
+            "poke_id": f"{poke[0]:04d}",
+            "poke_name": poke[1],
+            "poke_image" : poke[2],
+            "poke_types" : type_list
+        }
+        my_poke_list.append(poke_dict)    
+
+    
+
+    context = {"pokemon" : my_poke_list}  
+    return jsonify(**context), 201

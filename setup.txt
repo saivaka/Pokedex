@@ -1,4 +1,3 @@
-
 To install sqllite for windows:
 sudo apt-get install sqlite3 curl
 
@@ -14,3 +13,62 @@ flask --app app --debug run --host 0.0.0.0 --port 8000
 
 How to set up react
 
+
+
+
+<div class="grid-container">
+        {/* {% for poke in pokemon %} */}
+        <div class="poke-box">
+            {/* Load Image */}
+            {/* <a href="/pokepage/{{poke.poke_id}}/">
+                <img src={poke_image} alt= 'image of ${poke_name}'/>
+                
+            </a> */}
+
+            {/* Load Id */}
+            <div class = "poke_id">
+                #{poke_id}
+            </div>   
+
+            {/* Load Name */}
+            <div class="poke_name">
+                {poke_name}
+            </div>
+
+            {/* <div class="poke_types">
+                {% for type in poke.poke_types %}
+                    {{type}}
+                {% endfor %}
+            </div> */}
+        </div>
+        {/* {% endfor %} */}
+    </div>
+
+
+<div class="grid-container">
+            {/* {% for poke in pokemon %} */}
+            <div class="poke-box">
+                {/* Load Image */}
+                {/* <a href="/pokepage/{{poke.poke_id}}/">
+                    <img src={poke_image} alt= 'image of ${poke_name}'/>
+                </a> */}
+
+                {/* Load Id */}
+                <div class = "poke_id">
+                    #{pokeid}
+                </div>   
+
+                {/* Load Name */}
+                <div class="poke_name">
+                    {pokename}
+                </div>
+
+                {/* <div class="poke_types">
+                    {% for type in poke.poke_types %}
+                        {{type}}
+                    {% endfor %}
+                </div> */}
+            </div>
+            {/* {% endfor %} */}
+        </div>
+    )

@@ -12,7 +12,7 @@ CREATE TABLE pokemon(
     poke_habitat TEXT,
 
     poke_image_url TEXT,
-
+    
     PRIMARY KEY(poke_ID)
 );
 

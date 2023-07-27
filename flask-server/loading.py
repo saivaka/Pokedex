@@ -2,6 +2,7 @@ import requests
 import sqlite3
 import urllib3
 import math
+from threading import Thread
 
 class Pokemon_loader:
 
@@ -219,6 +220,7 @@ def main():
     
 
     for i in range(1, 10): # Number of loops = number of pokemons
+        # Thread.start() #TODO work on threading
         pokemon_request = f"https://pokeapi.co/api/v2/pokemon/{i}" # Load all needed info from pokemon route api
         response = requests.get(pokemon_request)
         pokemon = response.json()
