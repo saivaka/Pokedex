@@ -1,5 +1,5 @@
 # Pokedex Full Stack
-## Sai Vaka, Lohtih Pula, Nolan Mohr 
+## Sai Vaka, Lohith Pula, Nolan Mohr 
 
 # Backend 
 
