@@ -4,18 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href= "{{ url_for('static', filename='css/style.css') }}" > 
+    
 </head>
 <body>
     <div>
         <a href="/">POKEDEX</a>
     </div>
-    
-    
-    {% for poke in pokemon %}
-            <a href="/pokepage/{{poke.poke_id}}/">
-                <h1>{{poke.poke_name}}</h1>
-            </a>
-    {% endfor %}
+    <div class="search">
+        <!-- <form action="/?target={{request.url}}" method="GET" enctype="multipart/form-data"></form> -->
+        <!-- <form action="/?target={{request.url}}" method="POST" enctype="multipart/form-data">
+            Search Pokemon: 
+            <input type="text" name="poke_name" placeholder="e.g., Pikachu">
+            <input type="submit" value="submit"/>
+        </form> -->
+<!-- 
+        <form action="/" method="get" enctype="multipart/form-data">
+            <label for="pokemon_name">Search Pokemon: </label>
+            <input type="text" id="pokemon_name" name="name">
+            <input type="submit" value="Search">
+        </form> -->
+
+    </div>
+    <div class="grid-container">
+        {% for poke in pokemon %}
+            <div class="poke-box">
+                <!-- Load Image -->
+                <a href="/pokepage/{{poke.poke_id}}/">
+                    <img src="{{poke.poke_image}}" alt="image of {{poke.poke_name}}">
+                </a>
+
+                <!-- Load Id -->
+                <div class = "poke_id">
+                    #{{poke.poke_id}}
+                </div>   
+
+                <!-- Load Name -->
+                <div class="poke_name">
+                    {{poke.poke_name}}
+                </div>
+
+                <div class="poke_types">
+                    {% for type in poke.poke_types %}
+                        {{type}}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     
 </body>
 </html>
