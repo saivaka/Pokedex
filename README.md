@@ -1,7 +1,7 @@
 # Pokedex Full Stack Application 
 
 # Overview
-A pokedex web application which utilizes the pokemon public API to retrieve data and display the data in a meaningful UI friendly way. 
+A pokedex web application which utilizes the pokemon public API to retrieve data and display the data as a Pokedex. 
 
 # Backend 
 Flask + Python on the backend and SQLite for the database. 
