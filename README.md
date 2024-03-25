@@ -1,5 +1,4 @@
-# Pokedex Full Stack
-## Sai Vaka
+# Pokedex Full Stack Application 
 
 # Overview
 A pokedex web application which utilizes the pokemon public API to retrieve data and display the data in a meaningful UI friendly way. 
